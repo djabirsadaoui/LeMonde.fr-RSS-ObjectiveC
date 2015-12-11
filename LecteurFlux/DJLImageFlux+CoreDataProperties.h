@@ -10,7 +10,7 @@
 //
 
 #import "DJLImageFlux.h"
-
+#import  "DJLChanelFlux+CoreDataProperties.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DJLImageFlux (CoreDataProperties)
