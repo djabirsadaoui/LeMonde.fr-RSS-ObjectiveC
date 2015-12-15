@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "DJLMasterViewController.h"
-#import "DJLChanelFlux.h"
+#import "DJLChanelFlux.h
 #import "DJLImageFlux.h"
 #import "DJLItemFlux.h"
-@interface DJLStartViewController : UIViewController<UIPageViewControllerDataSource,UIPageViewControllerDelegate>
+
+@interface DJLStartViewController : SWRevealViewController
 
 
 @property (strong, nonatomic) UIPageViewController              *pageViewController;

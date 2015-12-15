@@ -23,6 +23,10 @@
 		354967711C160AF500B31534 /* LecteurFlux.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3549676F1C160AF500B31534 /* LecteurFlux.xcdatamodeld */; };
 		3549678A1C160DAE00B31534 /* DJLItemFlux+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 3549677F1C160DAE00B31534 /* DJLItemFlux+CoreDataProperties.m */; };
 		3549678B1C160DAE00B31534 /* DJLItemFlux.m in Sources */ = {isa = PBXBuildFile; fileRef = 354967811C160DAE00B31534 /* DJLItemFlux.m */; };
+		356AB4D31C207D2600583B79 /* FrontTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 356AB4D21C207D2600583B79 /* FrontTableViewController.m */; };
+		356AB4D61C207D3500583B79 /* rearTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 356AB4D51C207D3500583B79 /* rearTableViewController.m */; };
+		356AB4DC1C20812E00583B79 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 356AB4DB1C20812E00583B79 /* SWRevealViewController.m */; };
+		358F78F81C202DF7000CD14D /* DJLCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F78F71C202DF7000CD14D /* DJLCollectionViewController.m */; };
 		35BA67F31C18852B0062F36E /* DJLStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35BA67F21C18852B0062F36E /* DJLStartViewController.m */; };
 		76F2B36515C933E0FF39B0B4 /* libPods-LecteurFlux.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73B11AA5893BF84809689A91 /* libPods-LecteurFlux.a */; };
 /* End PBXBuildFile section */
@@ -68,6 +72,14 @@
 		3549677F1C160DAE00B31534 /* DJLItemFlux+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DJLItemFlux+CoreDataProperties.m"; sourceTree = "<group>"; };
 		354967801C160DAE00B31534 /* DJLItemFlux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DJLItemFlux.h; sourceTree = "<group>"; };
 		354967811C160DAE00B31534 /* DJLItemFlux.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DJLItemFlux.m; sourceTree = "<group>"; };
+		356AB4D11C207D2600583B79 /* FrontTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrontTableViewController.h; sourceTree = "<group>"; };
+		356AB4D21C207D2600583B79 /* FrontTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrontTableViewController.m; sourceTree = "<group>"; };
+		356AB4D41C207D3500583B79 /* rearTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rearTableViewController.h; sourceTree = "<group>"; };
+		356AB4D51C207D3500583B79 /* rearTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = rearTableViewController.m; sourceTree = "<group>"; };
+		356AB4DA1C20812E00583B79 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = SWRevealViewController/SWRevealViewController.h; sourceTree = "<group>"; };
+		356AB4DB1C20812E00583B79 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = SWRevealViewController/SWRevealViewController.m; sourceTree = "<group>"; };
+		358F78F61C202DF7000CD14D /* DJLCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DJLCollectionViewController.h; sourceTree = "<group>"; };
+		358F78F71C202DF7000CD14D /* DJLCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DJLCollectionViewController.m; sourceTree = "<group>"; };
 		35BA67F11C18852B0062F36E /* DJLStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DJLStartViewController.h; sourceTree = "<group>"; };
 		35BA67F21C18852B0062F36E /* DJLStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DJLStartViewController.m; sourceTree = "<group>"; };
 		35F412441C163B8800BE4CDE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -127,6 +139,7 @@
 		354967401C15E36B00B31534 /* LecteurFlux */ = {
 			isa = PBXGroup;
 			children = (
+				356AB4D01C207C8D00583B79 /* SWRevealViewController */,
 				3549676E1C15E5BC00B31534 /* Controller */,
 				3549676D1C15E5B400B31534 /* View */,
 				3549676C1C15E5AB00B31534 /* Model */,
@@ -188,6 +201,12 @@
 		3549676E1C15E5BC00B31534 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				356AB4D11C207D2600583B79 /* FrontTableViewController.h */,
+				356AB4D21C207D2600583B79 /* FrontTableViewController.m */,
+				356AB4D41C207D3500583B79 /* rearTableViewController.h */,
+				356AB4D51C207D3500583B79 /* rearTableViewController.m */,
+				358F78F61C202DF7000CD14D /* DJLCollectionViewController.h */,
+				358F78F71C202DF7000CD14D /* DJLCollectionViewController.m */,
 				354967441C15E36B00B31534 /* AppDelegate.h */,
 				354967451C15E36B00B31534 /* AppDelegate.m */,
 				35BA67F11C18852B0062F36E /* DJLStartViewController.h */,
@@ -198,6 +217,15 @@
 				3516A6F31C175CBA0051282E /* DJLDetailViewController.m */,
 			);
 			name = Controller;
+			sourceTree = "<group>";
+		};
+		356AB4D01C207C8D00583B79 /* SWRevealViewController */ = {
+			isa = PBXGroup;
+			children = (
+				356AB4DA1C20812E00583B79 /* SWRevealViewController.h */,
+				356AB4DB1C20812E00583B79 /* SWRevealViewController.m */,
+			);
+			name = SWRevealViewController;
 			sourceTree = "<group>";
 		};
 		AB1737C285E14527A10B963D /* Pods */ = {
@@ -356,13 +384,17 @@
 				354967711C160AF500B31534 /* LecteurFlux.xcdatamodeld in Sources */,
 				354967491C15E36B00B31534 /* DJLMasterViewController.m in Sources */,
 				354967431C15E36B00B31534 /* main.m in Sources */,
+				356AB4D61C207D3500583B79 /* rearTableViewController.m in Sources */,
 				351E90E51C18325C0087B5EA /* DJLImageFlux+CoreDataProperties.m in Sources */,
 				3516A6EE1C170E770051282E /* DJLChanelFlux.m in Sources */,
 				35BA67F31C18852B0062F36E /* DJLStartViewController.m in Sources */,
 				3516A6F41C175CBA0051282E /* DJLDetailViewController.m in Sources */,
 				3549678A1C160DAE00B31534 /* DJLItemFlux+CoreDataProperties.m in Sources */,
+				356AB4DC1C20812E00583B79 /* SWRevealViewController.m in Sources */,
 				351E90E61C18325C0087B5EA /* DJLImageFlux.m in Sources */,
+				358F78F81C202DF7000CD14D /* DJLCollectionViewController.m in Sources */,
 				3516A6F11C171BB10051282E /* DJLTableViewCell.m in Sources */,
+				356AB4D31C207D2600583B79 /* FrontTableViewController.m in Sources */,
 				3516A6ED1C170E770051282E /* DJLChanelFlux+CoreDataProperties.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
