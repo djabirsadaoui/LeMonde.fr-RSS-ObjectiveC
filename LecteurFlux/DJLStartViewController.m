@@ -7,46 +7,55 @@
 //
 
 #import "DJLStartViewController.h"
-
+#import "DJLMasterViewController.h"
 @interface DJLStartViewController ()
 
 @end
 
 @implementation DJLStartViewController
-@synthesize categoryNews,categoryData,indexcategory,managedModel,managedContext;
+
+@synthesize categoryNews,categoriesData,indexcategory,managedModel,managedContext,DJLdelegate;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // extract managedObjectModel and managedObjectContext
     managedModel = [[[RKObjectManager sharedManager] managedObjectStore] managedObjectModel];
     managedContext = [[RKManagedObjectStore defaultStore] mainQueueManagedObjectContext];
     [self createRequestModelForChannel];
-    categoryNews = [NSArray arrayWithObjects:@"emploi",@"disparitions",@"ameriques", nil];
-    categoryData = [NSMutableArray array];
+    categoryNews = [NSArray arrayWithObjects:@"emploi",@"disparitions",@"libye",@"concours",@"bachelor",@"afrique",@"football",@"immobilier",@"japon",@"paris", nil];
+    categoriesData = [NSMutableArray array];
     for (NSString *item in categoryNews) {
         [self getFlowForCategory:item];
        
     }
+     UINavigationController *navigator = (UINavigationController*)[self rearViewController];
+    DJLMenuTableViewController *controller = (DJLMenuTableViewController*) [navigator topViewController];
+    [controller setStartcontroller:self];
+    [controller setCategoriesData:categoryNews];
+    [[controller tableView] reloadData];
     
 }
 
--(void)showTableView{
-    if (self.storyboard) {
-        self.pageViewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"pageViewController"];
-    }
-    self.pageViewController.dataSource = self;
-    float sizeNavigationBar = self.navigationController.navigationBar.frame.size.height+20;
-    DJLMasterViewController *startingViewController = [self viewControllerAtIndex:0];
-    NSArray *viewControllers = @[startingViewController];
-    [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
-    // Change the size of page view controller
-    self.pageViewController.view.frame =  CGRectMake(0,sizeNavigationBar, self.view.frame.size.width, self.view.frame.size.height- sizeNavigationBar);
-    [self addChildViewController:_pageViewController];
-    [self.view addSubview:_pageViewController.view];
-    [self.pageViewController didMoveToParentViewController:self];
-    self.navigationItem.title =categoryNews[0];
+-(void)showTableViewForcategory:(NSString*)category{
+    UINavigationController *navigator = (UINavigationController*)[self frontViewController];
+    DJLMasterViewController *controller = (DJLMasterViewController*)[navigator topViewController];
+    [controller setStartController:self];
+    [self setDJLdelegate:controller];
+    [controller setTitle:category];
+    DJLChanelFlux *channel = [self getChannelForCategory:category];
+    NSLog(@"title : %@",channel.items.anyObject.title);
+    [controller setChanelFlow:channel];
+    [controller setDataFlow:channel.items.allObjects];
+    [self setFrontViewPosition:FrontViewPositionLeft];
+    [[controller tableView] reloadData];
+    
+    
 }
 
-
+-(DJLChanelFlux*)getChannelForCategory:(NSString*)category{
+     NSArray *array = [self searchChannelsWithPredicate:category];
+     DJLChanelFlux * obj = [array firstObject];
+        return obj;
+}
 /******************  create template request for Channel**********************************/
 -(void) createRequestModelForChannel{
     NSEntityDescription *entityDesc = [[managedModel entitiesByName] objectForKey:@"DJLChanelFlux"];
@@ -109,9 +118,9 @@
             }
         }
         [managedContext saveToPersistentStore:&error];
-        [categoryData addObject:chanelFlow];
+        [categoriesData addObject:chanelFlow];
         if (indexcategory == categoryNews.count) {
-            [self showTableView];
+            [self showTableViewForcategory:@"Emploi"];
         }
         if (error) {
             NSLog(@"failed save data");
@@ -124,14 +133,15 @@
 }
 
 /******************* refresh data for this category ****************************/
--(IBAction)refreshCategory:(id)sender {
-    DJLMasterViewController *controller = self.pageViewController.viewControllers.lastObject;
+-(void)refreshDataFromServerWithCategory:(NSString*)category {
+   
     NSString * sufix = @"rss_full.xml";
   
-    NSString * requesPath = [NSString stringWithFormat:@"/%@/%@",self.navigationItem.title,sufix];
+    NSString * requesPath = [NSString stringWithFormat:@"/%@/%@",category,sufix];
     RKObjectManager *manager = [RKObjectManager sharedManager];
+    
     [manager getObjectsAtPath:requesPath parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSArray *array = [self searchChannelsWithPredicate:self.navigationItem.title];
+        NSArray *array = [self searchChannelsWithPredicate:category];
         if (array) {
             DJLChanelFlux *chanelFlow =(DJLChanelFlux*)[array objectAtIndex:0];
             // extract the items from channel
@@ -147,8 +157,7 @@
                 }
             }
             [managedContext saveToPersistentStore:nil];
-            [controller setDataFlow:[chanelFlow.items allObjects]];
-            [controller.tableView reloadData];
+            [[self DJLdelegate]DJLStartViewController:self didFinishRefreshWithChannel:chanelFlow ];
         }else{
             NSLog(@"empty data with this category : %@",self.navigationItem.title);
         }
@@ -159,58 +168,6 @@
     
     
 }
-
-
-
--(DJLMasterViewController *)viewControllerAtIndex:(NSUInteger)index
-{
-    if (([self.categoryNews count] == 0) || (index >= [self.categoryNews count])) {
-        return nil;
-    }
-    // Create a new view controller and pass suitable data.
-    DJLMasterViewController *pageContentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PageContentViewController"];
-    DJLChanelFlux * chanel = self.categoryData[index];
-    pageContentViewController.dataFlow = [[chanel items] allObjects];
-    pageContentViewController.pageIndex = index;
-    self.navigationItem.title =categoryNews[index];
-    return pageContentViewController;
-}
-
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
-{
-    NSUInteger index = ((DJLMasterViewController*) viewController).pageIndex;
-    if ((index == 0) || (index == NSNotFound)) {
-        return nil;
-    }
-    index--;
-   
-    return [self viewControllerAtIndex:index];
-}
-
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
-{
-    NSUInteger index = ((DJLMasterViewController*) viewController).pageIndex;
-    if (index == NSNotFound) {
-        return nil;
-    }
-    index++;
-    if (index == [self.categoryNews count]) {
-        return nil;
-    }
-    return [self viewControllerAtIndex:index];
-}
-
-- (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController
-{
-    return [self.categoryData count];
-}
-
-- (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController
-{
-    return 0;
-}
-
-
 
 
 - (void)didReceiveMemoryWarning {

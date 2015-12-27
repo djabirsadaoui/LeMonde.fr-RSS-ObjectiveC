@@ -17,22 +17,13 @@
 
 @synthesize objectManager,context;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-//    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-//    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-    
-//    navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
-//    splitViewController.delegate = self;
     
     /******* show navigation bar and attributes ******************/
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
-     [UIColor redColor],UITextAttributeTextColor,[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8],UITextAttributeTextShadowColor,[NSValue valueWithUIOffset:UIOffsetMake(0, -1)],UITextAttributeTextShadowOffset,[UIFont fontWithName:@"Arial-Bold" size:0.0],UITextAttributeFont,nil];
+     [UIColor colorWithRed:0.28 green:0.44 blue:0.57 alpha:1],UITextAttributeTextColor,[UIColor colorWithRed:0.28 green:0.44 blue:0.57 alpha:1],UITextAttributeTextShadowColor,[NSValue valueWithUIOffset:UIOffsetMake(0, -1)],UITextAttributeTextShadowOffset,[UIFont fontWithName:@"Arial-Bold" size:20],UITextAttributeFont,nil];
     [[UINavigationBar appearance] setTitleTextAttributes:dic];
-    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-    UIPageControl *pageControl = [UIPageControl appearance];
-    pageControl.pageIndicatorTintColor = [UIColor whiteColor];
-    pageControl.currentPageIndicatorTintColor = [UIColor redColor];
-    pageControl.backgroundColor = [UIColor colorWithRed:1 green:0.82 blue:0.2 alpha:1];
+    [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.28 green:0.44 blue:0.57 alpha:1]];
+   
    /***********************************************************************/
     
     /****** configurate coreData ***********************************/
@@ -46,6 +37,7 @@
     [RKMIMETypeSerialization registerClass:[RKXMLReaderSerialization class] forMIMEType:@"application/rss+xml"];
     [objectManager setAcceptHeaderWithMIMEType:RKMIMETypeTextXML];
     [objectManager setRequestSerializationMIMEType:RKMIMETypeTextXML];
+    
     /************************************************************/
       // retrieve main object model from main bundel
     NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
@@ -84,16 +76,17 @@
     RKEntityMapping *itemMapping = [RKEntityMapping mappingForEntityForName:@"DJLItemFlux" inManagedObjectStore:managedObjectStore];
     [itemMapping addAttributeMappingsFromDictionary:@{@"link.text":@"link",@"title.text":@"title",@"pubDate.text":@"publicationDate",@"description.text":@"descriptionFlux"}];
     [itemMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"enclosure" toKeyPath:@"image" withMapping:imageMapping]];
-    [itemMapping setIdentificationAttributes:@[@"link"]];
+    [itemMapping setIdentificationAttributes:@[@"link",@"publicationDate"]];
     
     /*************************** chanelMapping  ***************************/
     RKEntityMapping *chanelMapping = [RKEntityMapping mappingForEntityForName:@"DJLChanelFlux" inManagedObjectStore:managedObjectStore];
     [chanelMapping addAttributeMappingsFromDictionary:@{@"title.text":@"title",@"link.text":@"link",@"pubDate.text":@"pubDate"}];
     [chanelMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"item" toKeyPath:@"items" withMapping:itemMapping]];
-    [chanelMapping setIdentificationAttributes:@[@"pubDate"]];
+    [chanelMapping setIdentificationAttributes:@[@"pubDate",@"link",@"title"]];
     
 
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:chanelMapping method:RKRequestMethodGET pathPattern:nil keyPath:@"rss.channel" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful) ];
+   
      // add url sifux to base url of object manager
     [objectManager addResponseDescriptor:responseDescriptor];
    [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];

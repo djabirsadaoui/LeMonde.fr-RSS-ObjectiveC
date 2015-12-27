@@ -13,18 +13,18 @@
 #import <RestKit/RestKit.h>
 #import "DJLTableViewCell.h"
 #import "AppDelegate.h"
+#import "DJLStartViewController.h"
 @class DJLDetailViewController;
 
-@interface DJLMasterViewController : UITableViewController
-
+@interface DJLMasterViewController : UITableViewController <DJLStartViewControllerDelegate>
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (strong, nonatomic) DJLDetailViewController *detailViewController;
 @property(strong,nonatomic)NSArray *dataFlow;
 @property(strong,nonatomic)DJLChanelFlux *chanelFlow;
-
+@property(weak,nonatomic)DJLStartViewController *startController;
+@property(weak,nonatomic)UIRefreshControl * refreshController;
 @property NSUInteger pageIndex;
-//-(void)getFlowForCategory:(NSString*)category;
-//-(void)fetchFlowFromContext;
-- (IBAction)refreshData:(UIBarButtonItem *)sender;
+
 
 @end
 

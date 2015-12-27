@@ -8,49 +8,75 @@
 
 #import "DJLMasterViewController.h"
 #import "DJLDetailViewController.h"
-
-
+#import "DJLStartViewController.h"
+#import "DJLWebViewController.h"
+#import "SWRevealViewController.h"
 @interface DJLMasterViewController ()
 
 
 @end
 
 @implementation DJLMasterViewController
-@synthesize dataFlow,chanelFlow;
+@synthesize dataFlow,chanelFlow,refreshControl,startController;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.detailViewController = (DJLDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
-    
+    refreshControl = [[UIRefreshControl alloc] init];
+    [[self view] addSubview:refreshControl];
+   
+    SWRevealViewController *revealViewController = self.revealViewController;
+    if ( revealViewController )
+    {
+        [self.sidebarButton setTarget: self.revealViewController];
+        [self.sidebarButton setAction: @selector(revealToggle:)];
+        [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    }
+
 }
 
-- (IBAction)refreshData:(UIBarButtonItem *)sender {
-    //[self getFlowForCategory:@"afrique"];
-}
+
 
 - (void)viewWillAppear:(BOOL)animated {
     self.clearsSelectionOnViewWillAppear = self.splitViewController.isCollapsed;
     [super viewWillAppear:animated];
+    
 }
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    [refreshControl beginRefreshing];
+    [startController refreshDataFromServerWithCategory:[[self title] lowercaseString]];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 
+-(void)DJLStartViewController:(DJLStartViewController *)controller didFinishRefreshWithChannel:(DJLChanelFlux *)channel{
+    [refreshControl endRefreshing];
+    [self setChanelFlow:channel];
+    [self setDataFlow:channel.items.allObjects];
+    [[self tableView] reloadData];
+}
 
 
-#pragma mark - Segues
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         DJLItemFlux *object = self.dataFlow[indexPath.row];
-        DJLDetailViewController *controller = (DJLDetailViewController *)[[segue destinationViewController] topViewController];
+        DJLDetailViewController *controller = (DJLDetailViewController *)[segue destinationViewController] ;
         [controller setItem:object];
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
         controller.navigationItem.leftItemsSupplementBackButton = YES;
+    }else if ([[segue identifier] isEqualToString:@"showViewWeb"]){
+        DJLWebViewController *controller = [segue destinationViewController];
+        NSIndexPath *index =[self.tableView indexPathForSelectedRow];
+        DJLTableViewCell *cell = (DJLTableViewCell*)[self.tableView cellForRowAtIndexPath:index];
+        NSString *link = cell.urlWeb;
+        [controller setLink:link];
+        
     }
 }
 
@@ -73,10 +99,11 @@
     DJLItemFlux *item = [dataFlow objectAtIndex:indexPath.row];
     DJLImageFlux *imageFlow = item.image;
     [cell.titleLabel setText:item.title];
-   
-    UIImage *img = [[UIImage alloc ]initWithData:imageFlow.imageData];
+    UIImage *img =  [UIImage imageWithData:imageFlow.imageData scale:0.5];
     [cell.imageView setImage:img];
+    [cell setUrlWeb:item.link];
     return cell;
 }
+
 
 @end

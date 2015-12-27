@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7ACDA64CE1B921A3EB52268A"
+               BlueprintIdentifier = "5A12A40FD6E88DE17D3D8001"
                BuildableName = "libRKXMLReaderSerialization.a"
                BlueprintName = "RKXMLReaderSerialization"
                ReferencedContainer = "container:Pods.xcodeproj">

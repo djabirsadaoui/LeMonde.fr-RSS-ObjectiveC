@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface DJLTableViewCell : UITableViewCell
+// ajouter toujour @synthitize parce que il crée juste la méthode getter 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UITextView *titleLabel;
+@property (nonatomic)NSString *urlWeb;
 
 @end

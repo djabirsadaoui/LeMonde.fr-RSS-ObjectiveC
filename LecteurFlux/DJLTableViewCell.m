@@ -9,7 +9,7 @@
 #import "DJLTableViewCell.h"
 
 @implementation DJLTableViewCell
-
+@synthesize imageView;
 - (void)awakeFromNib {
     // Initialization code
 }
@@ -19,5 +19,6 @@
 
     // Configure the view for the selected state
 }
+
 
 @end
