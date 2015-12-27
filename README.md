@@ -1,7 +1,7 @@
 # LeMonde.fr-RSS :
-It is RSS reader application that retrieves information as gatégories and allows to a user reads the latest informations. It uses the AFnetworking framework for managing the network portion , RKXMLReaderSerialization framework for parsing an xml file , CoreData to persist data in mode offline .
+It is RSS reader application that retrieves information as gatégories and allows to a user reads the latest informations. It uses the AFnetworking framework for managing the network part , RKXMLReaderSerialization framework for parsing an xml file , CoreData to persist data in mode offline .
 #####KeysWords : 
-AFNetworking, CoreData, RestKit, RKXMLReaderSerialization, XML, UIKit, SlideMenu
+AFNetworking, CoreData, RestKit, RKXMLReaderSerialization, XML, UITableView, UIKit, SlideMenu.
 #####Screen Shots :
 ![img_0720](https://cloud.githubusercontent.com/assets/13332603/12011411/6043453a-accb-11e5-9897-edb7e97b81a5.jpg)
 ![img_0721](https://cloud.githubusercontent.com/assets/13332603/12011412/628613cc-accb-11e5-8473-342c5d56287d.jpg)
