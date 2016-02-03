@@ -17,6 +17,7 @@
 @class DJLDetailViewController;
 
 @interface DJLMasterViewController : UITableViewController <DJLStartViewControllerDelegate>
+
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (strong, nonatomic) DJLDetailViewController *detailViewController;
 @property(strong,nonatomic)NSArray *dataFlow;
